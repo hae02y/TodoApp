@@ -8,11 +8,10 @@ import codestates.todo.mapper.TodoMapper;
 import codestates.todo.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import javax.sound.midi.Patch;
 import java.util.List;
@@ -20,7 +19,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin
+@CrossOrigin("*")
 public class TodoController {
 
     private final TodoService service;
@@ -46,6 +45,7 @@ public class TodoController {
 
     @GetMapping
     public ResponseEntity<List<ResponseDto>> getTodos(){
+
         List<Todo> todos = service.findTodos();
         List<ResponseDto> collect = todos.stream().map(mapper::todoToResponse).collect(Collectors.toList());
 
